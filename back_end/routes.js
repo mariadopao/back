@@ -1,6 +1,5 @@
 import express from 'express'
 
-
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -16,8 +15,8 @@ router.get('/', async (req, res) => {
 router.get('/routes/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const chamado = await getChamadoById(id);
-    res.json(chamado);
+    await pool.query`insert into Produtos values(${descricao},${id})`
+    return res.status(201).json(ok)
   } 
   catch (error) {
     return res.status(500).json({ message: error });
@@ -27,8 +26,8 @@ router.get('/routes/:id', async (req, res) => {
 router.post('/server', async (req, res) => {
   try {
     const { data, nomeCliente, descricao } = req.body;
-    await createChamado(data, nomeCliente, descricao);
-    return res.status(201).json({ message:'Chamado criado com sucesso!' });
+    await pool.query`update Produtos set data = ${data}, nome = ${nome} where id = ${id}`
+    return res.status(201).json('atualizado')
   }
    catch (error) {
     return res.status(500).json({ message: error.message });
